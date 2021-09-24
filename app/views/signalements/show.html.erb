@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type de signalement :</strong>
+  <%= @signalement.type_signalement %>
+</p>
+
+<p>
+  <strong>Urgence:</strong>
+  <%= @signalement.urgence %>
+</p>
+
+<p>
+  <strong>Motif:</strong>
+  <%= @signalement.motif %>
+</p>
+
+<p>
+  <strong>Reference administration:</strong>
+  <%= @signalement.reference_administration %>
+</p>
+
+<p>
+  <strong>Commentaire:</strong>
+  <%= @signalement.commentaire %>
+</p>
+
+<p>
+  <strong>Reference juridiction:</strong>
+  <%= @signalement.reference_juridiction %>
+</p>
+
+<%= link_to 'Editer', edit_signalement_path(@signalement) %> |
+<%= link_to 'Retour', signalements_path %>

@@ -1,0 +1,67 @@
+<%= form_with(model: signalement) do |form| %>
+  <% if signalement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(signalement.errors.count, "error") %> prohibited this signalement from being saved:</h2>
+
+      <ul>
+        <% signalement.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="display: flex; margin-bottom: 20px;">
+    <div class="fr-container ip-vgroup" style="margin-right: 20px;">
+        <h3>Demandeur</h3>
+
+        <div class="fr-container">
+            <span class="ip-label">Prénom:</span> <%= current_user.prenom %> <br />
+            <span class="ip-label">Nom:</span> <%= current_user.nom %><br />
+            <span class="ip-label">E-mail:</span> <%= current_user.email %>
+        </div>
+    </div>
+    <div class="fr-container ip-vgroup">
+        <h3>Administration</h3>
+
+        <div class="fr-container">
+            <span class="ip-label">Administration:</span> URSSAF<br />
+            <span class="ip-label">Service:</span> Fraudes<br />
+            <span class="ip-label">Département:</span> 73 - Savoie<br />
+        </div>
+    </div>
+  </div>
+
+  <div class="fr-container ip-hgroup" style="margin-bottom: 15px">
+    <h3>Informations générales</h3>
+    <div class="field">
+        <%= form.label :type_signalement, class: "fr-label" %>
+        <%= form.select :type_signalement, ["Article 40", "Droit pénal", "Aide Sociale à l'Enfance", "Autre"], {}, { :class => 'fr-select' } %>
+    </div>
+
+    <div class="field">
+        <%= form.label :reference_administration, class: "fr-label" %>
+        <%= form.text_field :reference_administration, class: "fr-input" %>
+    </div>
+
+    <div class="field fr-checkbox-group">
+        <%= form.check_box :urgence %>
+        <%= form.label :urgence, class: "fr-label" %>
+    </div>
+  </div>
+
+  <div class="field fr-input-group">
+    <%= form.label :motif, class: "fr-label" %>
+    <%= form.text_area :motif, class: "fr-input" %>
+  </div>
+
+
+  <div class="field fr-input-group">
+    <%= form.label :commentaire, class: "fr-label" %>
+    <%= form.text_area :commentaire, class: "fr-input" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Créer le signalement", class: "fr-btn" %>
+  </div>
+<% end %>

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<div class="fr-table">
+    <table>
+    <caption>Mes signalements</caption>
+    <thead>
+        <tr>
+        <th>Type</th>
+        <th>Reference administration</th>
+        <th>Reference juridiction</th>
+        <th>Urgence</th>
+        <th colspan="3"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @signalements.each do |signalement| %>
+        <tr>
+            <td><%= signalement.type_signalement %></td>
+            <td><%= signalement.reference_administration %></td>
+            <td><%= signalement.reference_juridiction %></td>
+            <td><%= signalement.urgence %></td>
+            <td><%= link_to 'Voir', signalement %></td>
+            <td><%= link_to 'Modifier', edit_signalement_path(signalement) %></td>
+            <td><%= link_to 'supprimer', signalement, method: :delete, data: { confirm: 'Etes vous sûre de vouloir supprimer ce signalement ?' } %></td>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>
+
+<br>
+
+<%= link_to 'Créer un nouveau signalement', new_signalement_path %>

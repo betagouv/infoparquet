@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>InfoParquet</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header role="banner" class="fr-header">
+        <div class="fr-header__body">
+            <div class="fr-container">
+                <div class="fr-header__body-row">
+                    <div class="fr-header__brand-top">
+                        <div class="fr-header__logo">
+                            <p class="fr-logo">
+                                République<br>Française
+                            </p>
+                        </div>
+                        <div class="fr-header__navbar">
+                            <button
+                                class="fr-btn--menu fr-btn"
+                                data-fr-opened="false"
+                                aria-controls="modal-833"
+                                aria-haspopup="menu"
+                                title="Menu"
+                                id="fr-btn-menu-mobile"
+                            >
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                    <div class="fr-header__service">
+                        <a href="/" title="Accueil - InfoParquet - Ministère de la Justice">
+                            <p class="fr-header__service-title">InfoParquet</p>
+                        </a>
+                        <p class="fr-header__service-tagline">signalement simplifié des contentieux</p>
+                    </div>
+                </div>
+                <div class="fr-header_tools">
+                    <div class="fr-header__tools-links">
+                        <ul class="fr-links-group">
+                            <% if current_user == nil %>
+                                <li><a class="fr-link fr-fi-add-circle-line" href="/users/sign_up">Créer un compte</a></li>
+                                <li><a class="fr-link fr-fi-lock-line" href="/users/sign_in">Se connecter</a></li>
+                            <% else %>
+                                <li>
+                                    <%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class: "fr-link fr-fi-lock-line" %>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fr-header__menu fr-modal" id="modal-833" aria-labelledby="fr-btn-menu-mobile">
+            <div class="fr-container">
+                <button class="fr-link--close fr-link" aria-controls="modal-833">Fermer</button>
+                <div class="fr-header__menu-links"></div>
+                <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
+                    <ul class="fr-nav__list">
+                        <% if current_user %>
+                            <li class="fr-nav__item">
+                                <%= link_to "Signalements", signalements_path, class: "fr-nav__link", "aria-current": "page" %>
+                            </li>
+                            <% if current_user.role_manager? or current_user.role_root? %>
+                                <li class="fr-nav__item">
+                                    <a class="fr-nav__link" href="#" target="_self">Entités</a>
+                                </li>
+                            <% end %>
+                            <% if current_user.role_root? %>
+                                <li class="fr-nav__item">
+                                    <%= link_to "Utilisateurs", users_path, class: "fr-nav__link" %>
+                                </li>
+                            <% end %>
+                            <li class="fr-nav__item">
+                                <a class="fr-nav__link" href="#" target="_self">Mon compte</a>
+                            </li>
+                        <% end %>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="fr-container">
+            <%= yield %>
+        </div>
+    </main>
+  </body>
+</html>
