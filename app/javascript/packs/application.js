@@ -8,6 +8,7 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "@gouvfr/dsfr/dist/js/dsfr.module"
+import "@gouvfr/dsfr/dist/css/dsfr.css"
 
 Rails.start()
 Turbolinks.start()
