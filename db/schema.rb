@@ -10,20 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_21_123826) do
+ActiveRecord::Schema.define(version: 2021_10_06_151802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "entities", force: :cascade do |t|
-    t.string "name"
-    t.string "service"
-    t.bigint "parent_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "departement", null: false
-    t.index ["parent_id"], name: "index_entities_on_parent_id"
-  end
 
   create_table "signalements", force: :cascade do |t|
     t.string "type_signalement"
@@ -53,16 +43,15 @@ ActiveRecord::Schema.define(version: 2021_09_21_123826) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "prenom", null: false
-    t.bigint "entity_id"
     t.string "nom", null: false
     t.integer "role", default: 1, null: false
+    t.string "administration"
+    t.string "service"
+    t.string "telephone"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["entity_id"], name: "index_users_on_entity_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "entities", "entities", column: "parent_id"
   add_foreign_key "signalements", "users", column: "demandeur_id"
   add_foreign_key "signalements", "users", column: "instructeur_id"
-  add_foreign_key "users", "entities"
 end

@@ -9,6 +9,7 @@
         <th>Prénom</th>
         <th>E-mail</th>
         <th>Role</th>
+        <th>Action</th>
         </tr>
     </thead>
 
@@ -19,6 +20,7 @@
             <td><%= user.prenom %></td>
             <td><%= user.email %></td>
             <td><%= user.role %></td>
+            <td><%= link_to "Voir", user, class: "fr-link" %></td>
         </tr>
         <% end %>
     </tbody>

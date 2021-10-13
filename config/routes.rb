@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  resources :entities
   resources :signalements
-  devise_for :users, controllers: { registrations: 'users/registrations' }
-  get "/users" => 'users#index'
+  devise_for :users, path: 'account', controllers: { registrations: 'users/registrations' }
+  get '/account', to: 'account#show'
+  resources :users, only: [:index, :show]
+  
+  post '/webhook', to: 'webhook#event'
+
   root "index#index"
 end

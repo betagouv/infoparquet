@@ -13,3 +13,12 @@ import "@gouvfr/dsfr/dist/css/dsfr.css"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+document.addEventListener('animationend', evt => {
+    const elem = evt.target
+    for (let i = 0; i < elem.classList.length; i++) {
+        if (elem.classList[i] == "fr-alert") {
+            elem.classList.add("fr-alert--hidden")
+        }
+    }
+})

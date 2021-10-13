@@ -66,22 +66,14 @@
                 <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
                     <ul class="fr-nav__list">
                         <% if current_user %>
-                            <li class="fr-nav__item">
-                                <%= link_to "Signalements", signalements_path, class: "fr-nav__link", "aria-current": "page" %>
-                            </li>
-                            <% if current_user.role_manager? or current_user.role_root? %>
-                                <li class="fr-nav__item">
-                                    <a class="fr-nav__link" href="#" target="_self">Entités</a>
-                                </li>
+                            <%= tab_link "Signalements", signalements_path %>
+                            <% if current_user.role_root? or current_user.role_root? %>
+                                <%= tab_link "Juridictions", "/juridictions" %>
                             <% end %>
                             <% if current_user.role_root? %>
-                                <li class="fr-nav__item">
-                                    <%= link_to "Utilisateurs", users_path, class: "fr-nav__link" %>
-                                </li>
+                                <%= tab_link "Utilisateurs", users_path %>
                             <% end %>
-                            <li class="fr-nav__item">
-                                <a class="fr-nav__link" href="#" target="_self">Mon compte</a>
-                            </li>
+                            <%= tab_link "Mon compte", edit_user_registration_path %>
                         <% end %>
                     </ul>
                 </nav>

@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
+<% if notice %>
+    <div role="alert" class="fr-alert fr-alert--success">
+        <p class="fr-alert__title"><%= notice %></p>
+    </div>
+<% end %>
 
 <div class="fr-table">
     <table>
@@ -20,9 +24,9 @@
             <td><%= signalement.reference_administration %></td>
             <td><%= signalement.reference_juridiction %></td>
             <td><%= signalement.urgence %></td>
-            <td><%= link_to 'Voir', signalement %></td>
-            <td><%= link_to 'Modifier', edit_signalement_path(signalement) %></td>
-            <td><%= link_to 'supprimer', signalement, method: :delete, data: { confirm: 'Etes vous sûre de vouloir supprimer ce signalement ?' } %></td>
+            <td><%= link_to 'Voir', signalement, class: "fr-link" %></td>
+            <td><%= link_to 'Modifier', edit_signalement_path(signalement), class: "fr-link" %></td>
+            <td><%= link_to 'supprimer', signalement, method: :delete, data: { confirm: 'Etes vous sûre de vouloir supprimer ce signalement ?' }, class: "fr-link" %></td>
         </tr>
         <% end %>
     </tbody>
@@ -31,4 +35,4 @@
 
 <br>
 
-<%= link_to 'Créer un nouveau signalement', new_signalement_path %>
+<%= link_to 'Créer un nouveau signalement', new_signalement_path, class: "fr-link" %>
