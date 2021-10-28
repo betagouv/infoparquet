@@ -1,11 +1,13 @@
 <h2><%= current_user.prenom %> <%= current_user.nom %></h2>
 <p>
-    E-mail : <%= current_user.email %><br />
-    Téléphone : <%= current_user.telephone %>
+    <strong>E-mail :</strong> <%= current_user.email %><br />
+    <strong>Téléphone :</strong> <%= current_user.telephone %>
 </p>
 <% if current_user.administration %>
     <p>
-        Administration : <%= current_user.administration %><br />
-        Service : <%= current_user.service %>
+        <strong>Administration :</strong> <%= current_user.administration %><br />
+        <strong>Service :</strong> <%= current_user.service %>
     </p>
 <% end %>
+
+<%= link_to "Editer", edit_user_registration_path, class: "fr-link" %>

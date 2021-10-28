@@ -46,8 +46,8 @@
                     <div class="fr-header__tools-links">
                         <ul class="fr-links-group">
                             <% if current_user == nil %>
-                                <li><a class="fr-link fr-fi-add-circle-line" href="/users/sign_up">Créer un compte</a></li>
-                                <li><a class="fr-link fr-fi-lock-line" href="/users/sign_in">Se connecter</a></li>
+                                <li><a class="fr-link fr-fi-add-circle-line" href="/account/sign_up">Créer un compte</a></li>
+                                <li><a class="fr-link fr-fi-lock-line" href="/account/sign_in">Se connecter</a></li>
                             <% else %>
                                 <li>
                                     <%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class: "fr-link fr-fi-lock-line" %>
@@ -58,12 +58,12 @@
                 </div>
             </div>
         </div>
-
+<!--
         <div class="fr-header__menu fr-modal" id="modal-833" aria-labelledby="fr-btn-menu-mobile">
             <div class="fr-container">
                 <button class="fr-link--close fr-link" aria-controls="modal-833">Fermer</button>
                 <div class="fr-header__menu-links"></div>
-                <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
+               <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
                     <ul class="fr-nav__list">
                         <% if current_user %>
                             <%= tab_link "Signalements", signalements_path %>
@@ -73,12 +73,12 @@
                             <% if current_user.role_root? %>
                                 <%= tab_link "Utilisateurs", users_path %>
                             <% end %>
-                            <%= tab_link "Mon compte", edit_user_registration_path %>
+                            <%= tab_link "Mon compte", account_path %>
                         <% end %>
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div>-->
     </header>
     <main>
         <div class="fr-container">

@@ -1,0 +1,59 @@
+<div class="fr-table">
+    <table>
+    <caption></caption>
+    <thead>
+        <tr>
+        <th>Reference administration</th>
+        <th>Nature de l'affaire</th>
+        <th>Date des faits</th>
+        <th>lieux des faits</th>
+        <th>Urgence</th>
+        <th colspan="3"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @dossiers.each do |dossier| %>
+        <tr>
+            <td><%= dossier.reference_dossier %></td>
+            <td><%= dossier.nature_affaire %></td>
+            <td><%= dossier.date_faits%></td>
+            <td><%= dossier.lieux.join "," %></td>
+            <td><%= dossier.urgence %></td>
+            <td><%= link_to 'Voir', "https://www.demarches-simplifiees.fr/dossiers/#{dossier.number}", class: "fr-link" %></td>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>
+<nav role="navigation" class="fr-pagination" aria-label="Pagination">
+    <ul class="fr-pagination__list">
+        <li>
+            <%= link_to 'Première page', request.query_parameters.merge({:page => 0}), class: "fr-pagination__link fr-pagination__link--first" %>
+        </li>
+        <li>
+            <% if @page > 0 %>
+                <%= link_to 'Page précédente', request.query_parameters.merge({:page => @page - 1}), class: "fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label" %>
+            <% else %>
+                <a class="fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label">Page précédente</a>
+            <% end %>
+        </li>
+        <% @pageCount.times do |i| %>
+            <%= link_to i+1, request.query_parameters.merge({:page => i}), class: "fr-pagination__link", "aria-current": i == @page ? "page" : nil %>
+        <% end %>
+        <li>
+            <% if @page < @pageCount - 1 %>
+                <%= link_to 'Page suivante', request.query_parameters.merge({:page => @page + 1}), class: "fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label" %>
+            <% else %>
+                <a class="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label">
+                    Page suivante
+                </a>
+            <% end %>
+        </li>
+        <li>
+            <a class="fr-pagination__link fr-pagination__link--last" href="#">
+                Dernière page
+            </a>
+        </li>
+    </ul>
+</nav>

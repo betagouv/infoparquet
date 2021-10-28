@@ -1,0 +1,22 @@
+<h1>Mes dossiers</h1>
+<div id="dossier-filters">
+    <div class="fr-checkbox-group">
+        <input type="checkbox" id="checkbox" name="checkbox">
+        <label class="fr-label" for="checkbox">seulement les dossiers urgents</label>
+    </div>
+
+    <%= form_with method: "get" do |form| %>
+        <div class="fr-search-bar" id="header-search" role="search">
+        <label class="fr-label" for="search-1">
+            Recherche
+        </label>
+        <input class="fr-input" placeholder="Rechercher" type="search" id="search-1" name="search" value="<%= @search %>">
+        <button type="submit" class="fr-btn" title="Rechercher">
+            Rechercher
+        </button>
+        </div>
+    <% end %>
+</div>
+<div id="dossier-container">
+    <%= render "dossiers" %>
+</div>

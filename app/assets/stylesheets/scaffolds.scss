@@ -96,3 +96,9 @@ main {
 .actions {
     margin-top: 10px;
 }
+
+#dossier-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
