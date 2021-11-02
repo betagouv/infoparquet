@@ -15,6 +15,7 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=${RAILS_ENV}
+      - DS_DEMARCHE_ID=49437
     depends_on:
       - db
   mailcatcher:

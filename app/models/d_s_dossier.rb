@@ -50,7 +50,7 @@ class DSDossier
     def self.get_all()
         result = DSAPI::Client.query(
             GET_ALL_DOSSIER_QUERY,
-            variables: { demarcheId: 49437 }
+            variables: { demarcheId: ENV['DS_DEMARCHE_ID'].to_i }
         )
 
         unless result.data and result.data.demarche
