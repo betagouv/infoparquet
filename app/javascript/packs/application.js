@@ -22,3 +22,7 @@ document.addEventListener('animationend', evt => {
         }
     }
 })
+
+window.InfoParquet = {
+    ds: {}
+}
