@@ -20,7 +20,7 @@
             <td><%= dossier.date_faits%></td>
             <td><%= dossier.lieux.join "," %></td>
             <td><%= dossier.urgence %></td>
-            <td><%= link_to 'Voir', "https://www.demarches-simplifiees.fr/dossiers/#{dossier.number}", class: "fr-link" %></td>
+            <td><%= link_to 'Voir', "https://www.demarches-simplifiees.fr/dossiers/#{dossier.number}", class: "fr-link fr-fi-external-link-line fr-link--icon-right", target: "_blank", rel: "noopener" %></td>
         </tr>
         <% end %>
     </tbody>
