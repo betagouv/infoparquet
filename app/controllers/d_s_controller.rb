@@ -40,6 +40,8 @@ class DSController < ApplicationController
                 dossiers = []
             end
        end
+
+       dossiers = dossiers.sort { |a, b| a.urgence ? 0 : 1 }
         
        @dossiers = dossiers
        @page = page

@@ -14,12 +14,16 @@
 
     <tbody>
         <% @dossiers.each do |dossier| %>
-        <tr>
+        <tr class="<%= dossier.urgence ? 'dossier-urgent' : ''%>">
             <td><%= dossier.reference_dossier %></td>
             <td><%= dossier.nature_affaire %></td>
             <td><%= dossier.date_faits%></td>
             <td><%= dossier.lieux.join "," %></td>
-            <td><%= dossier.urgence %></td>
+            <td>
+                <% if dossier.urgence %> 
+                    <span class="fr-fi-error-warning-fill" aria-hidden="true"></span>
+                <% end %>
+            </td>
             <td><%= link_to 'Voir', "https://www.demarches-simplifiees.fr/dossiers/#{dossier.number}", class: "fr-link fr-fi-external-link-line fr-link--icon-right", target: "_blank", rel: "noopener" %></td>
         </tr>
         <% end %>
