@@ -1,4 +1,14 @@
-<h1>Mes dossiers</h1>
+<h1>
+    Mes dossiers
+    <%=
+        link_to \
+            "Créer un nouveau dossier",
+            "https://www.demarches-simplifiees.fr/dossiers/new?brouillon=true&procedure_id=#{ENV['DS_DEMARCHE_ID']}",
+            class: "fr-btn fr-fi-external-link-line fr-btn--icon-right",
+            target: "_blank",
+            rel: "noopener" 
+    %>
+</h1>
 <div id="dossier-filters">
     <div class="fr-checkbox-group">
         <input 

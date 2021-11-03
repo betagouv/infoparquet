@@ -1,0 +1,17 @@
+body.ds.index {
+    h1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #dossier-filters {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .dossier-urgent {
+        color: rgb(255, 30, 0);
+    }
+}
