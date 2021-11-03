@@ -82,6 +82,13 @@
     </header>
     <main>
         <div class="fr-container">
+            <div id="flash_messages">
+                <% flash.each do |type,msg| %>
+                    <div role="alert" class="fr-alert <%= type == 'notice' ? 'fr-alert--success' : 'fr-alert--error' %>">
+                        <%= msg %>
+                    </div>
+                <% end %>
+            </div>
             <%= yield %>
         </div>
     </main>
