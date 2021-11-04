@@ -52,13 +52,15 @@
                                 <li>
                                     <%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class: "fr-link fr-fi-lock-line" %>
                                 </li>
+                                <li>
+                                    <%= link_to "Mon compte", account_path, class: 'fr-link fr-fi-account-line' %>
+                                </li>
                             <% end %>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-<!--
         <div class="fr-header__menu fr-modal" id="modal-833" aria-labelledby="fr-btn-menu-mobile">
             <div class="fr-container">
                 <button class="fr-link--close fr-link" aria-controls="modal-833">Fermer</button>
@@ -66,19 +68,19 @@
                <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
                     <ul class="fr-nav__list">
                         <% if current_user %>
-                            <%= tab_link "Signalements", signalements_path %>
+                            <%= tab_link "Mes dossiers", ds_dossiers_path %>
+                            <%= tab_link "Aide", "#" %>
                             <% if current_user.role_root? or current_user.role_root? %>
                                 <%= tab_link "Juridictions", "/juridictions" %>
                             <% end %>
                             <% if current_user.role_root? %>
                                 <%= tab_link "Utilisateurs", users_path %>
                             <% end %>
-                            <%= tab_link "Mon compte", account_path %>
                         <% end %>
                     </ul>
                 </nav>
             </div>
-        </div>-->
+        </div>
     </header>
     <main>
         <div class="fr-container">
