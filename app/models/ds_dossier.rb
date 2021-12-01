@@ -1,4 +1,4 @@
-class DSDossier
+class DsDossier
     DOSSIER_FRAGMENT = DSAPI::Client.parse <<-'GRAPHQL'
         fragment on Dossier {
             id
@@ -30,7 +30,7 @@ class DSDossier
     GET_DOSSIER_QUERY = DSAPI::Client.parse <<-'GRAPHQL'
         query ($dossierId: Int!){
             dossier(number: $dossierId) {
-                ...DSDossier::DOSSIER_FRAGMENT 
+                ...DsDossier::DOSSIER_FRAGMENT 
             }
         }
     GRAPHQL
@@ -40,7 +40,7 @@ class DSDossier
             demarche(number: $demarcheId) {
                 dossiers {
                     nodes {
-                        ...DSDossier::DOSSIER_FRAGMENT
+                        ...DsDossier::DOSSIER_FRAGMENT
                     }
                 }
             }
@@ -79,8 +79,8 @@ class DSDossier
     end
 
     def self.parse_dossier(query_result)
-        dossier_data = DSDossier::DOSSIER_FRAGMENT.new(query_result)
-        dossier = DSDossier.new
+        dossier_data = DsDossier::DOSSIER_FRAGMENT.new(query_result)
+        dossier = DsDossier.new
 
         dossier.id = dossier_data.id
         dossier.number = dossier_data.number

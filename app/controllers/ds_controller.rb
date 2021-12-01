@@ -1,5 +1,4 @@
-
-class DSController < ApplicationController
+class DsController < ApplicationController
     before_action :authenticate_user!, :except => [:event]
     protect_from_forgery :except => [:event]
 
@@ -9,7 +8,7 @@ class DSController < ApplicationController
     end
 
     def index 
-       dossiers = DSDossier.get_all() 
+       dossiers = DsDossier.get_all() 
        if !current_user.role_root?
             dossiers = dossiers.select {|d| d.usager_email == current_user.email}
        end

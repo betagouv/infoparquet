@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   
   resources :users, only: [:index, :show]
 
-  post '/ds/event', to: 'd_s#event'
-  get '/ds/dossiers', to: 'd_s#index'
+  post '/ds/event', to: 'ds#event'
+  get '/ds/dossiers', to: 'ds#index'
 
   root "index#index"
 end
