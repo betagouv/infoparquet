@@ -69,13 +69,13 @@
                     <ul class="fr-nav__list">
                         <% if current_user %>
                             <%= tab_link "Mes dossiers", ds_dossiers_path %>
-                            <%= tab_link "Aide", "#" %>
                             <% if current_user.role_root? or current_user.role_root? %>
-                                <%= tab_link "Juridictions", "/juridictions" %>
+                                <%= tab_link "Administrations", "/juridictions" %>
                             <% end %>
                             <% if current_user.role_root? %>
                                 <%= tab_link "Utilisateurs", users_path %>
                             <% end %>
+                            <%= tab_link "Aide", "#" %>
                         <% end %>
                     </ul>
                 </nav>

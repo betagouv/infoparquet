@@ -8,9 +8,11 @@ RUN apt-get update -qq && apt-get install -y postgresql-client nodejs yarn nano 
 ENV EDITOR=nano
 
 WORKDIR /myapp
+
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
+RUN java -Xshare:dump
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
