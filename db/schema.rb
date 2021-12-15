@@ -10,24 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_134344) do
+ActiveRecord::Schema.define(version: 2021_12_15_170951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "administration_services", force: :cascade do |t|
-    t.string "nom"
-    t.bigint "administration_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["administration_id"], name: "index_administration_services_on_administration_id"
-  end
 
   create_table "administrations", force: :cascade do |t|
     t.string "code"
     t.string "nom"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "departement"
+    t.string "service"
   end
 
   create_table "signalements", force: :cascade do |t|
@@ -42,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_134344) do
     t.string "idj"
     t.string "nataff"
     t.string "natinf"
+    t.string "lieux_faits"
     t.index ["administration_id"], name: "index_signalements_on_administration_id"
     t.index ["createur_id"], name: "index_signalements_on_createur_id"
   end
@@ -60,16 +55,15 @@ ActiveRecord::Schema.define(version: 2021_12_08_134344) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "prenom", null: false
     t.string "nom", null: false
-    t.integer "role", default: 1, null: false
+    t.integer "role", default: 2, null: false
     t.string "telephone"
-    t.bigint "administration_service_id"
-    t.index ["administration_service_id"], name: "index_users_on_administration_service_id"
+    t.bigint "administration_id"
+    t.index ["administration_id"], name: "index_users_on_administration_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "administration_services", "administrations"
   add_foreign_key "signalements", "administrations"
   add_foreign_key "signalements", "users", column: "createur_id"
-  add_foreign_key "users", "administration_services"
+  add_foreign_key "users", "administrations"
 end

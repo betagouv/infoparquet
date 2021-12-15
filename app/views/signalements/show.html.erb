@@ -1,34 +1,42 @@
-<p id="notice"><%= notice %></p>
+<h1>Détails du signalement</h1>
 
-<p>
-  <strong>Type de signalement :</strong>
-  <%= @signalement.type_signalement %>
-</p>
+<div id="signalement_content">
+    <div id="signalement_data">
+        <div class="fr-table">
+            <table>
+                <caption>Identité du demandeur</caption>
+                <tbody>
+                    <tr><th>Nom</th><td><%= @signalement.createur.nom %></td></tr>
+                    <tr><th>Prénom</th><td><%= @signalement.createur.prenom %></td></tr>
+                    <tr><th>E-mail</th><td><%= @signalement.createur.email %></td></tr>
+                    <tr><th>Administration</th><td><%= @signalement.administration.nom %> (<%= @signalement.administration.service %>)</td></tr>
+                </tbody>
+            </table>
+        </div>
 
-<p>
-  <strong>Urgence:</strong>
-  <%= @signalement.urgence %>
-</p>
+        <div class="fr-table">
+            <table>
+                <caption>Informations générales</caption>
+                <tbody>
+                    <tr><th>Référence administration</th><td><%= @signalement.reference_administration %></td></tr>
+                    <tr><th>date des faits</th><td><%= @signalement.date_faits %></td></tr>
+                    <tr><th>Lieux des faits</th><td><%= JSON.parse(@signalement.lieux_faits).join ', ' %></td></tr>
+                    <tr><th>Il s'agit d'une urgence</th><td><%= @signalement.urgence ? 'oui' : 'non' %></td></tr>
+                </tbody>
+            </table>
+        </div>
 
-<p>
-  <strong>Motif:</strong>
-  <%= @signalement.motif %>
-</p>
-
-<p>
-  <strong>Reference administration:</strong>
-  <%= @signalement.reference_administration %>
-</p>
-
-<p>
-  <strong>Commentaire:</strong>
-  <%= @signalement.commentaire %>
-</p>
-
-<p>
-  <strong>Reference juridiction:</strong>
-  <%= @signalement.reference_juridiction %>
-</p>
-
+        <div class="fr-table">
+            <table>
+                <caption>Qualification</caption>
+                <tbody>
+                    <tr><th>Code NATAFF:</th><td><%= @signalement.nataff %></td></tr>
+                    <tr><th>Code NATINF:</th><td><%= @signalement.natinf %></td></tr>
+                    <tr><th>Commentaire:</th><td><%= @signalement.commentaire %></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <%= link_to 'Editer', edit_signalement_path(@signalement), class: "fr-link" %> |
 <%= link_to 'Retour', signalements_path, class: "fr-link" %>

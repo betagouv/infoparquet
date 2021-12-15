@@ -7,8 +7,11 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-import "@gouvfr/dsfr/dist/js/dsfr.module"
-import "@gouvfr/dsfr/dist/css/dsfr.css"
+import "@gouvfr/dsfr/dist/dsfr/dsfr.module"
+import "@gouvfr/dsfr/dist/dsfr/dsfr.css"
+
+import './components/ip-autocomplete-input'
+import './components/ip-tags-input'
 
 Rails.start()
 Turbolinks.start()
@@ -24,5 +27,6 @@ document.addEventListener('animationend', evt => {
 })
 
 window.InfoParquet = {
-    ds: {}
+    ds: {},
+    signalements: {}
 }

@@ -16,7 +16,7 @@
             id="ds-index-checkbox-urgence" 
             name="checkbox" 
             onclick="InfoParquet.ds.index.toggleDossierUrgent(event, this, '<%= request.query_parameters %>')"
-            <%= ["true", "oui", "2", 1].include?(request.query_parameters["urgence"]) ? "checked" : nil %>
+            <%= ["true", "oui", "1", 1].include?(request.query_parameters["urgence"]) ? "checked" : nil %>
         >
         <label class="fr-label" for="ds-index-checkbox-urgence">seulement les dossiers urgents</label>
     </div>

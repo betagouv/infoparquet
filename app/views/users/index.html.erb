@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <div class="fr-table">
     <table>
     <caption>Utilisateurs</caption>
@@ -9,6 +7,9 @@
         <th>Prénom</th>
         <th>E-mail</th>
         <th>Role</th>
+        <% if current_user.role_root? %>
+            <th>Administration</th>
+        <% end %>
         <th>Action</th>
         </tr>
     </thead>
@@ -19,12 +20,46 @@
             <td><%= user.nom %></td>
             <td><%= user.prenom %></td>
             <td><%= user.email %></td>
-            <td><%= user.role %></td>
-            <td><%= link_to "Voir", user, class: "fr-link" %></td>
+            <td>
+                <%if user == current_user or user.role_root? and !current_user.role_root? %>
+                    <%= user.role %>
+                <% else %>
+                    <%= form_with(model: user) do |form| %>
+                        <%= form.select :role, 
+                            current_user.role_root? ? User.roles.keys : ['user', 'manager'], 
+                            {},
+                            {
+                                selected: user.role,
+                                onchange: 'this.form.submit()',
+                                class: 'fr-select'
+                            }
+                        %>
+                    <% end %>
+                <% end %>
+            </td>
+            <% if current_user.role_root? %>
+                <td><%= user.administration ? user.administration.nom : 'N/A' %></td>
+            <% end %>
+            <td>
+                <%= link_to "Voir", user, class: "fr-link" %>
+                <% if current_user.role_manager? %>
+                    <%= link_to 'Supprimer', remove_user_from_administration_path(id: current_user.administration_id, user_id: user.id), method: 'DELETE', class: 'fr-link' %>
+                <% end %>
+            </td>
         </tr>
         <% end %>
     </tbody>
     </table>
+
+    <% if current_user.role_manager? %>
+        <%= form_with url: add_user_to_administration_path(id: current_user.administration_id) do |form| %>
+            <div class="field fr-input-group">
+                <%= form.label :email, class: "fr-label" %>
+                <%= form.text_field :email, class: "fr-input" %>
+            </div>
+            <%= form.submit "Ajouter l'utilisateur", class: "fr-btn" %>
+        <% end %>
+    <% end %>
 </div>
 
 <br>

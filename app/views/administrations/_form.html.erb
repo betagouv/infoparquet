@@ -1,0 +1,38 @@
+<%= form_with model: administration do |form| %>
+  <% if administration.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(administration.errors.count, "error") %> prohibited this signalement from being saved:</h2>
+
+      <ul>
+        <% administration.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field fr-input-group">
+    <%= form.label :nom, class: "fr-label" %>
+    <%= form.text_field :nom, class: "fr-input" %>
+  </div>
+
+
+  <div class="field fr-input-group">
+    <%= form.label :code, class: "fr-label" %>
+    <%= form.text_field :code, class: "fr-input" %>
+  </div>
+
+  <div class="field fr-input-group">
+    <%= form.label :departement, 'Département', class: "fr-label" %>
+    <%= form.select :departement, (Departements.map do |d| ["#{d[:code]} - #{d[:desc]}", d[:code]] end), {}, {:class => "fr-select" } %>
+  </div>
+
+  <div class="field fr-input-group">
+    <%= form.label :service, class: "fr-label" %>
+    <%= form.text_field :service, class: "fr-input" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit action_name == "edit" ? "Enregistrer les modifications" : "Créer l'administration", class: "fr-btn" %>
+  </div>
+<% end %>

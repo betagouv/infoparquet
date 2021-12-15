@@ -1,0 +1,20 @@
+.ip-autocomplete-input-list {
+    position: absolute;
+    z-index: 99;
+    background: white;
+    width: 100%;
+
+    ul {
+        list-style-type: none;
+        box-shadow: 0px 5px 5px #AAA;
+
+        li {
+            cursor: pointer;
+        }
+
+        li.ip-autocomplete-input--selected {
+            background: lightgray;
+        }
+    }
+}
+

@@ -1,0 +1,68 @@
+<div class="fr-table">
+    <table>
+    <caption></caption>
+    <thead>
+        <tr>
+        <th>Reference administration</th>
+        <th>Identifiant Justice</th>
+        <th>Nature de l'affaire</th>
+        <th>Date des faits</th>
+        <th>Lieux des faits</th>
+        <th>Urgence</th>
+        <th colspan="2"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @signalements.each do |signalement| %>
+        <tr class="<%= signalement.urgence ? 'dossier-urgent' : ''%>">
+            <td><%= signalement.reference_administration %></td>
+            <td><%= signalement.idj %></td>
+            <td><%= signalement.nataff %></td>
+            <td><%= signalement.date_faits%></td>
+            <td><%= JSON.parse(signalement.lieux_faits).join ', ' %></td>
+            <td>
+                <% if signalement.urgence %> 
+                    <span class="fr-fi-error-warning-fill" aria-hidden="true"></span>
+                <% else %>
+                    Non
+                <% end %>
+            </td>
+            <td><%= link_to 'Voir', signalement, class: "fr-link" %></td>
+            <td><%= link_to 'Modifier', edit_signalement_path(signalement), class: "fr-link" %></td>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>
+<nav role="navigation" class="fr-pagination" aria-label="Pagination">
+    <ul class="fr-pagination__list">
+        <li>
+            <%= link_to 'Première page', request.query_parameters.merge({:page => 0}), class: "fr-pagination__link fr-pagination__link--first" %>
+        </li>
+        <li>
+            <% if @page > 0 %>
+                <%= link_to 'Page précédente', request.query_parameters.merge({:page => @page - 1}), class: "fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label" %>
+            <% else %>
+                <a class="fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label">Page précédente</a>
+            <% end %>
+        </li>
+        <% @pageCount.times do |i| %>
+            <%= link_to i+1, request.query_parameters.merge({:page => i}), class: "fr-pagination__link", "aria-current": i == @page ? "page" : nil %>
+        <% end %>
+        <li>
+            <% if @page < @pageCount - 1 %>
+                <%= link_to 'Page suivante', request.query_parameters.merge({:page => @page + 1}), class: "fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label" %>
+            <% else %>
+                <a class="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label">
+                    Page suivante
+                </a>
+            <% end %>
+        </li>
+        <li>
+            <a class="fr-pagination__link fr-pagination__link--last" href="#">
+                Dernière page
+            </a>
+        </li>
+    </ul>
+</nav>

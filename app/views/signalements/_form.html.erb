@@ -11,57 +11,87 @@
     </div>
   <% end %>
 
-  <div style="display: flex; margin-bottom: 20px;">
-    <div class="fr-container ip-vgroup" style="margin-right: 20px;">
-        <h3>Demandeur</h3>
+<h3>Informations générales</h3>
 
-        <div class="fr-container">
-            <span class="ip-label">Prénom:</span> <%= current_user.prenom %> <br />
-            <span class="ip-label">Nom:</span> <%= current_user.nom %><br />
-            <span class="ip-label">E-mail:</span> <%= current_user.email %>
-        </div>
-    </div>
-    <div class="fr-container ip-vgroup">
-        <h3>Administration</h3>
+<div class="field fr-input-group">
+    <%= form.label :reference_administration, class: "fr-label" do %>
+        Référence pour l'administration
+        <span class="fr-hint-text">
+            numéro d'identification interne pour ce dossier au sein de votre administration (optionnel).
+        </span>
+    <% end %>
+    <%= form.text_field :reference_administration, class: "fr-input" %>
+</div>
 
-        <div class="fr-container">
-            <span class="ip-label">Administration:</span> URSSAF<br />
-            <span class="ip-label">Service:</span> Fraudes<br />
-            <span class="ip-label">Département:</span> 73 - Savoie<br />
-        </div>
-    </div>
-  </div>
+<div class="field fr-input-group">
+    <%= form.label :date_faits, class: "fr-label" do %>
+        Date des faits
+        <span class="fr-hint-text">
+            Pour un évenement ponctuel : "01/02/2021", pour une periode, "de mars à mai 2021" ou "du 01/03/2021 au 30/04/2021".
+        </span>
+    <% end %>
+    <%= form.text_field :date_faits, class: "fr-input" %>
+</div>
 
-  <div class="fr-container ip-hgroup" style="margin-bottom: 15px">
-    <h3>Informations générales</h3>
-    <div class="field">
-        <%= form.label :type_signalement, class: "fr-label" %>
-        <%= form.select :type_signalement, ["Article 40", "Droit pénal", "Aide Sociale à l'Enfance", "Autre"], {}, { :class => 'fr-select' } %>
+<div class="field fr-input-group">
+    <%= form.label :lieux_faits, class: "fr-label" do %>
+        Lieux des faits
+        <span class="fr-hint-text">
+            Lieux dans lesquels l'infraction a été commise.
+        </span>
+    <% end %>
+    <div
+        class="ip-tags-input"
+        data-ip-tags="<%= signalement.lieux_faits ? signalement.lieux_faits : [] %>"
+    >
+        <div class="ip-tags-input-tags"></div>
+        <%= form.hidden_field :lieux_faits, class: "ip-tags-input-hidden-field" %>
+        <%= form.text_field :lieux_fait_search, class: "fr-input ip-autocomplete-input", 'data-ip-autocomplete-input-source-api-communes': true %>
+        <div class="ip-autocomplete-input-list"></div>
     </div>
+</div>
 
-    <div class="field">
-        <%= form.label :reference_administration, class: "fr-label" %>
-        <%= form.text_field :reference_administration, class: "fr-input" %>
-    </div>
+<div class="field fr-checkbox-group">
+    <%= form.check_box :urgence %>
+    <%= form.label :urgence, class: "fr-label" do %>
+        Il s'agit d'une urgence
+        <span class="fr-hint-text">
+            Un dossier urgent fera l'objet d'un traitement prioritaire de la part du parquet réceptionnant la procédure.
+        </span>
+    <% end %>
+</div>
 
-    <div class="field fr-checkbox-group">
-        <%= form.check_box :urgence %>
-        <%= form.label :urgence, class: "fr-label" %>
-    </div>
-  </div>
+<h3>Qualification</h3>
+<div class="field fr-input-group">
+    <%= form.label :nataff, class: "fr-label" do %>
+        Code NATAFF
+        <span class="fr-hint-text">
+            Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité de recherche.
+        </span>
+    <% end %>
+    <%= form.text_field :nataff, class: "fr-input", 'data-ip-autocomplete': '["a", "b", "c"]' %>
+</div>
+<div class="field fr-input-group">
+    <%= form.label :natinf, class: "fr-label" do %>
+        Code NATINF
+        <span class="fr-hint-text">
+            Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité de recherche.
+        </span>
+    <% end %>
+    <%= form.text_field :natinf, class: "fr-input" %>
+</div>
 
   <div class="field fr-input-group">
-    <%= form.label :motif, class: "fr-label" %>
-    <%= form.text_area :motif, class: "fr-input" %>
-  </div>
-
-
-  <div class="field fr-input-group">
-    <%= form.label :commentaire, class: "fr-label" %>
+    <%= form.label :commentaire, class: "fr-label" do %>
+        Commentaire
+        <span class="fr-hint-text">
+            Facultatif
+        </span>
+    <% end %>
     <%= form.text_area :commentaire, class: "fr-input" %>
   </div>
 
   <div class="actions">
-    <%= form.submit "Créer le signalement", class: "fr-btn" %>
+    <%= form.submit action_name == "new" ? "Créer le signalement" : "Sauvegarder les changements", class: "fr-btn" %>
   </div>
 <% end %>

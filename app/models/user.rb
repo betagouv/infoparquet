@@ -5,8 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
-  has_many :demandes, class_name: 'Signalement', foreign_key: 'demandeur_id'
-  has_many :instructions, class_name:'Signalement', foreign_key: 'instructeur_id'
+  belongs_to :administration, required: false
 
   enum role: {
      root: 0,

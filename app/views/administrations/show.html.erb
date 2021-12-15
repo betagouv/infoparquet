@@ -1,0 +1,39 @@
+<h1><%= @administration.nom %></h1>
+
+<div class="fr-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Code SRJ</th>
+                <th>Département</th>
+                <th>Service</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><%= @administration.code %></td>
+                <td><%= @administration.departement %></td>
+                <td><%= @administration.service %></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Membres</h2>
+
+<ul>
+    <% @administration.users.each do |user| %>
+        <li><%= user.email %> - <%= link_to 'Supprimer', remove_user_from_administration_path(user_id: user.id), method: 'DELETE', class: 'fr-link' %></li>
+    <% end %>
+</ul>
+
+<%= form_with url: add_user_to_administration_path do |form| %>
+    <div class="field fr-input-group">
+        <%= form.label :email, class: "fr-label" %>
+        <%= form.text_field :email, class: "fr-input" %>
+    </div>
+    <%= form.submit "Ajouter l'utilisateur", class: "fr-btn" %>
+<% end %>
+
+<%= link_to "Retour", administrations_path, class: "fr-link" %> | 
+<%= link_to "Modifier", edit_administration_path(@administration), class: "fr-link" %>

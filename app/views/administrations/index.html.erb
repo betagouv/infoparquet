@@ -1,0 +1,32 @@
+<div class="fr-table">
+    <table>
+    <caption>Administrations</caption>
+    <thead>
+        <tr>
+        <th>Nom</th>
+        <th>Code</th>
+        <th>Département</th>
+        <th>Service</th>
+        <th colspan="3"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @administrations.each do |administration| %>
+        <tr>
+            <td><%= administration.nom %></td>
+            <td><%= administration.code %></td>
+            <td><%= administration.departement %></td>
+            <td><%= administration.service %></td>
+            <td><%= link_to 'Voir', administration, class: "fr-link" %></td>
+            <td><%= link_to 'Modifier', edit_administration_path(administration), class: "fr-link" %></td>
+            <td><%= link_to 'Supprimer', administration, method: :delete, data: { confirm: 'Etes vous sûre de vouloir supprimer cette administration ?' }, class: "fr-link" %></td>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>
+
+<br>
+
+<%= link_to 'Créer une nouvelle administration', new_administration_path, class: "fr-link" %>

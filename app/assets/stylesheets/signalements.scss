@@ -1,3 +1,55 @@
 // Place all the styles related to the signalements controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+body.signalements.index {
+    h1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #dossier-filters {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .dossier-urgent {
+        color: rgb(255, 30, 0);
+    }
+
+    table tr {
+        width: 100%;
+    }
+}
+
+body.signalements.new {
+ main {
+     padding-top: 40px;
+ }
+}
+body.signalements.show {
+    #signalement_content {
+
+        th {
+            width: 50%;
+        }
+    }
+
+    #signalement_status {
+        padding: 20px;
+        position: relative;
+
+        ::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: var(--text-action-high-blue-france);
+            top: 0;
+            bottom: 50%;
+            left: 20px;
+        }
+    }
+
+
+}

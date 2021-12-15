@@ -6,9 +6,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body class="<%= "#{controller_name} #{action_name}" %>">
@@ -16,30 +16,32 @@
         <div class="fr-header__body">
             <div class="fr-container">
                 <div class="fr-header__body-row">
-                    <div class="fr-header__brand-top">
-                        <div class="fr-header__logo">
-                            <p class="fr-logo">
-                                République<br>Française
-                            </p>
+                    <div class="fr-header__brand fr-enlarge-link">
+                        <div class="fr-header__brand-top">
+                            <div class="fr-header__logo">
+                                <p class="fr-logo">
+                                    République<br>Française
+                                </p>
+                            </div>
+                            <div class="fr-header__navbar">
+                                <button
+                                    class="fr-btn--menu fr-btn"
+                                    data-fr-opened="false"
+                                    aria-controls="modal-833"
+                                    aria-haspopup="menu"
+                                    title="Menu"
+                                    id="fr-btn-menu-mobile"
+                                >
+                                    Menu
+                                </button>
+                            </div>
                         </div>
-                        <div class="fr-header__navbar">
-                            <button
-                                class="fr-btn--menu fr-btn"
-                                data-fr-opened="false"
-                                aria-controls="modal-833"
-                                aria-haspopup="menu"
-                                title="Menu"
-                                id="fr-btn-menu-mobile"
-                            >
-                                Menu
-                            </button>
+                        <div class="fr-header__service">
+                            <a href="/" title="Accueil - InfoParquet - Ministère de la Justice">
+                                <p class="fr-header__service-title">InfoParquet</p>
+                            </a>
+                            <p class="fr-header__service-tagline">signalement simplifié des contentieux</p>
                         </div>
-                    </div>
-                    <div class="fr-header__service">
-                        <a href="/" title="Accueil - InfoParquet - Ministère de la Justice">
-                            <p class="fr-header__service-title">InfoParquet</p>
-                        </a>
-                        <p class="fr-header__service-tagline">signalement simplifié des contentieux</p>
                     </div>
                 </div>
                 <div class="fr-header_tools">
@@ -53,7 +55,7 @@
                                     <%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class: "fr-link fr-fi-lock-line" %>
                                 </li>
                                 <li>
-                                    <%= link_to "Mon compte", account_path, class: 'fr-link fr-fi-account-line' %>
+                                    <%= link_to "#{current_user.prenom} #{current_user.nom}", account_path, class: 'fr-link fr-fi-account-line' %>
                                 </li>
                             <% end %>
                         </ul>
@@ -68,11 +70,11 @@
                <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
                     <ul class="fr-nav__list">
                         <% if current_user %>
-                            <%= tab_link "Mes dossiers", ds_dossiers_path %>
+                            <%= tab_link "Mes signalements", signalements_path %>
                             <% if current_user.role_root? or current_user.role_root? %>
-                                <%= tab_link "Administrations", "/juridictions" %>
+                                <%= tab_link "Administrations", "/administrations" %>
                             <% end %>
-                            <% if current_user.role_root? %>
+                            <% if ['root', 'manager'].include? current_user.role %>
                                 <%= tab_link "Utilisateurs", users_path %>
                             <% end %>
                             <%= tab_link "Aide", "#" %>
