@@ -1,14 +1,26 @@
-<h2>Mon compte</h2>
-<table>
-    <tr><th>Prénom :</th><td><%= current_user.prenom %></td></tr>
-    <tr><th>Nom :</th><td><%= current_user.nom %></td></tr>
-    <tr><th>Courriel :</th><td><%= current_user.email %></td></tr>
-</table>
-<% if current_user.administration %>
-    <p>
-        <strong>Administration :</strong> <%= current_user.administration %><br />
-        <strong>Service :</strong> <%= current_user.service %>
-    </p>
-<% end %>
+<h1>Mon compte</h1>
+
+<div class="fr-table">
+    <table>
+        <caption>Informations générales</caption>
+        <tr><th>Prénom</th><td><%= current_user.prenom %></td></tr>
+        <tr><th>Nom</th><td><%= current_user.nom %></td></tr>
+        <tr><th>Courriel</th><td><%= current_user.email %></td></tr>
+    </table>
+</div>
+
+<div class="fr-table">
+    <table>
+        <caption>Administration de rattachement</caption>
+        <% if current_user.administration %>
+            <tr><th>Administration</th><td><%= current_user.administration.nom %></td></tr>
+            <tr><th>Service</th><td><%= current_user.administration.service %></td></tr>
+            </p>
+        <% else %>
+            <tr><td>Vous n'êtes pas encore rattaché à une administration. Veuillez contacter votre responsable</td></tr>
+        <% end %>
+    </table>
+</div>
+
 
 <%= link_to "Editer", edit_user_registration_path, class: "fr-link" %>

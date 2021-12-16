@@ -70,7 +70,9 @@
                <nav class="fr-nav" id="navigation-832" role="navigation" aria-label="Menu principal">
                     <ul class="fr-nav__list">
                         <% if current_user %>
-                            <%= tab_link "Mes signalements", signalements_path %>
+                            <% if current_user.role_root? or current_user.administration_id %>
+                                <%= tab_link "Mes signalements", signalements_path %>
+                            <% end %>
                             <% if current_user.role_root? or current_user.role_root? %>
                                 <%= tab_link "Administrations", "/administrations" %>
                             <% end %>

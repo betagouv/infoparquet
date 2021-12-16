@@ -24,6 +24,18 @@ class SignalementsController < ApplicationController
         query = query.where urgence: true
     end
 
+    if @search
+        query = query.where(
+            'reference_administration ILIKE :startswith
+            OR nataff ILIKE :startswith
+            OR natinf ILIKE :startswith
+            OR idj ILIKE :startswith
+            OR lieux_faits ILIKE :contains', 
+            startswith: "#{@search}%",
+            contains: "%#{@search}%"
+        )
+    end
+
     @pageCount = query.count() / @limit
     @signalements = query.limit(@limit).offset(@page*@limit)
   end

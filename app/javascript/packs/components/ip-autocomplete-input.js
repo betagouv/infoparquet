@@ -22,6 +22,10 @@ function init(elem) {
             getCommunes(elem).then(() => {
                 renderList(elem)
             })
+        } else if (elem.dataset.ipAutocompleteInputSourceApiUsers) {
+            getUsers(elem).then(() => {
+                renderList(elem)
+            })
         }
     })
 
@@ -91,5 +95,15 @@ function getCommunes (elem) {
         return r.json()
     }).then(data => {
         setValues(elem, data.map (c => `${c.nom} (${c.codesPostaux[0]})`))
+    })
+}
+
+function getUsers (elem) {
+    const headers = new Headers()
+    headers.append('Accept', "application/json")
+    return fetch (`/users?email=${elem.value}`, { headers }).then(r => {
+        return r.json()
+    }).then(users => {
+        setValues(elem, users.map(u => u.email))
     })
 }

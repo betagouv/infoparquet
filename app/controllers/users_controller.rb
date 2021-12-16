@@ -11,6 +11,15 @@ class UsersController < ApplicationController
         else
             raise ActionController::RoutingError.new('Forbidden')
         end
+
+        if params[:email]
+            @users = @users.where("email LIKE :prefix", prefix: "#{params[:email]}%")
+        end
+
+        respond_to do |format|
+            format.html
+            format.json { render json: @users }
+        end
     end
 
     def show

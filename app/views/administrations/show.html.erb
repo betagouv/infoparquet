@@ -30,7 +30,8 @@
 <%= form_with url: add_user_to_administration_path do |form| %>
     <div class="field fr-input-group">
         <%= form.label :email, class: "fr-label" %>
-        <%= form.text_field :email, class: "fr-input" %>
+        <%= form.text_field :email, class: "fr-input ip-autocomplete-input", 'data-ip-autocomplete-input-source-api-users': true, autocomplete: 'off' %>
+        <div class="ip-autocomplete-input-list"></div>
     </div>
     <%= form.submit "Ajouter l'utilisateur", class: "fr-btn" %>
 <% end %>
