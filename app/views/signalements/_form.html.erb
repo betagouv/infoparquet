@@ -1,97 +1,76 @@
 <%= form_with(model: signalement) do |form| %>
-  <% if signalement.errors.any? %>
+    <% if signalement.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(signalement.errors.count, "error") %> prohibited this signalement from being saved:</h2>
+        <h2><%= pluralize(signalement.errors.count, "error") %> prohibited this signalement from being saved:</h2>
 
-      <ul>
+        <ul>
         <% signalement.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+            <li><%= error.full_message %></li>
         <% end %>
-      </ul>
+        </ul>
     </div>
-  <% end %>
-
-<h3>Informations générales</h3>
-
-<div class="field fr-input-group">
-    <%= form.label :reference_administration, class: "fr-label" do %>
-        Référence pour l'administration
-        <span class="fr-hint-text">
-            numéro d'identification interne pour ce dossier au sein de votre administration (optionnel).
-        </span>
     <% end %>
-    <%= form.text_field :reference_administration, class: "fr-input" %>
-</div>
 
-<div class="field fr-input-group">
-    <%= form.label :date_faits, class: "fr-label" do %>
-        Date des faits
-        <span class="fr-hint-text">
-            Pour un évenement ponctuel : "01/02/2021", pour une periode, "de mars à mai 2021" ou "du 01/03/2021 au 30/04/2021".
-        </span>
-    <% end %>
-    <%= form.text_field :date_faits, class: "fr-input" %>
-</div>
+    <h3>Informations générales</h3>
 
-<div class="field fr-input-group">
-    <%= form.label :lieux_faits, class: "fr-label" do %>
-        Lieux des faits
-        <span class="fr-hint-text">
-            Lieux dans lesquels l'infraction a été commise.
-        </span>
-    <% end %>
-    <div
-        class="ip-tags-input"
-        data-ip-tags="<%= signalement.lieux_faits ? signalement.lieux_faits : [] %>"
-    >
-        <div class="ip-tags-input-tags"></div>
-        <%= form.hidden_field :lieux_faits, class: "ip-tags-input-hidden-field" %>
-        <%= form.text_field :lieux_fait_search, class: "fr-input ip-autocomplete-input", 'data-ip-autocomplete-input-source-api-communes': true %>
-        <div class="ip-autocomplete-input-list"></div>
+    <%= form.ip_text_field(
+        :reference_administration, 
+        label: "Référence pour l'administration",
+        hint: "numéro d'identification interne pour ce dossier au sein de votre administration (optionnel)."
+    )%>
+
+    <%= form.ip_text_field(
+        :date_faits,
+        label: "Date des faits",
+        hint: 'Pour un évenement ponctuel : "01/02/2021", pour une periode, "de mars à mai 2021" ou "du 01/03/2021 au 30/04/2021".'
+    )%>
+
+    <%= form.ip_tags_input(
+        :lieux_faits,
+        label: "Lieux des faits",
+        hint: "Lieux dans lesquels l'infraction a été commise",
+        tags: signalement.lieux_faits ? signalement.lieux_faits : [],
+        data_source: "api-communes"
+    )%>
+
+    <%= form.ip_check_box(
+        :urgence,
+        label: "Il s'agit d'un urgence",
+        hint: "Un dossier urgent fera l'object d'un traitement prioritaire de la part du parquet réceptionnant la procédure."
+    )%>
+
+    <h3>Qualification</h3>
+
+    <%= form.ip_text_field(
+        :nataff,
+        label: "Code NATAFF",
+        hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche."
+    )%>
+    <%= form.ip_text_field(
+        :natinf,
+        label: "Code NATINF",
+        hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche."
+    )%>
+
+    <%= form.ip_text_area(
+        :commentaire,
+        label: "Commentaire",
+        hint: "Facultatif"
+    )%>
+
+    <h3>Documents attachés</h3>
+
+    <%= form.ip_file_field(
+        :documents,
+        multiple: true,
+        label: "Ajouter des documents au signalement",
+        hint: "Taille maximale : 1Go, tous les formats supportés, plusieurs fichiers possibles.",
+        files: signalement.documents
+    )%>
+
+
+    <div class="actions">
+        <br />
+        <%= form.submit action_name == "new" ? "Créer le signalement" : "Sauvegarder les changements", class: "fr-btn" %>
     </div>
-</div>
-
-<div class="field fr-checkbox-group">
-    <%= form.check_box :urgence %>
-    <%= form.label :urgence, class: "fr-label" do %>
-        Il s'agit d'une urgence
-        <span class="fr-hint-text">
-            Un dossier urgent fera l'objet d'un traitement prioritaire de la part du parquet réceptionnant la procédure.
-        </span>
-    <% end %>
-</div>
-
-<h3>Qualification</h3>
-<div class="field fr-input-group">
-    <%= form.label :nataff, class: "fr-label" do %>
-        Code NATAFF
-        <span class="fr-hint-text">
-            Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité de recherche.
-        </span>
-    <% end %>
-    <%= form.text_field :nataff, class: "fr-input", 'data-ip-autocomplete': '["a", "b", "c"]' %>
-</div>
-<div class="field fr-input-group">
-    <%= form.label :natinf, class: "fr-label" do %>
-        Code NATINF
-        <span class="fr-hint-text">
-            Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité de recherche.
-        </span>
-    <% end %>
-    <%= form.text_field :natinf, class: "fr-input" %>
-</div>
-
-  <div class="field fr-input-group">
-    <%= form.label :commentaire, class: "fr-label" do %>
-        Commentaire
-        <span class="fr-hint-text">
-            Facultatif
-        </span>
-    <% end %>
-    <%= form.text_area :commentaire, class: "fr-input" %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit action_name == "new" ? "Créer le signalement" : "Sauvegarder les changements", class: "fr-btn" %>
-  </div>
 <% end %>

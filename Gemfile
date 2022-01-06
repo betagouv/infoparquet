@@ -60,3 +60,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "graphql-client", "~> 0.17.0"
 
 gem "jwt"
+
+gem 'aws-sdk-s3', require: false

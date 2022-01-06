@@ -102,6 +102,6 @@ class SignalementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def signalement_params
-      params.require(:signalement).permit(:urgence, :reference_administration, :commentaire, :lieux_faits, :date_faits, :nataff, :natinf)
+      params.require(:signalement).permit(:urgence, :reference_administration, :commentaire, :lieux_faits, :date_faits, :nataff, :natinf, documents: [])
     end
 end

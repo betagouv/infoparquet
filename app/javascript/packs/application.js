@@ -12,6 +12,7 @@ import "@gouvfr/dsfr/dist/dsfr/dsfr.css"
 
 import './components/ip-autocomplete-input'
 import './components/ip-tags-input'
+import './components/ip-file-input'
 
 Rails.start()
 Turbolinks.start()
