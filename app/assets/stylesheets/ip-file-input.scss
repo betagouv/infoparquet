@@ -1,0 +1,20 @@
+.ip-file-input--files {
+    .fr-tag {
+        cursor: pointer;
+    }
+
+    .ip-file-input--files--new-file {
+        position: relative;
+        color: gray;
+
+        .ip-file-input--files--progress {
+            border-radius: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background: rgba(0,0,145,0.5);
+        }
+    }
+}

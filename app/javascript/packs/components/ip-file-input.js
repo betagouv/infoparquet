@@ -1,3 +1,5 @@
+import { DirectUpload } from '@rails/activestorage'
+
 document.addEventListener('turbolinks:load', () => {
     const elems = document.querySelectorAll('.ip-file-input')
     elems.forEach (init)
@@ -16,9 +18,41 @@ function init(elem) {
         elem.__ip_files = []
     }
 
-    elem.addEventListener("change", evt => renderFiles(elem))
+    elem.addEventListener("change", evt => {
+        Array.from(elem.files).forEach(file => uploadFile(elem, file))
+        elem.value = null
+        renderFiles(elem)
+    })
+    
 
     renderFiles(elem)
+}
+
+function uploadFile(elem, file) {
+    const url = elem.dataset.directUploadUrl
+    const fileInfos = {filename: file.name, progress: 0}
+    console.log(file)
+    const upload = new DirectUpload(file, url, {
+        directUploadWillStoreFileWithXHR: (request) => {
+            request.upload.addEventListener("progress", evt => {
+                fileInfos.progress = Math.floor(evt.loaded / evt.total * 100)
+                console.log(fileInfos)
+                renderFiles(elem)
+            })
+        }
+    })
+
+    upload.create((error, blob) => {
+        if (error) {
+            console.error(error)
+        } else {
+            fileInfos.signed_id = blob.signed_id
+            delete fileInfos.progress
+            renderFiles(elem)
+        }
+    })
+
+    elem.__ip_files.push(fileInfos)
 }
 
 function renderFiles (elem) {
@@ -32,20 +66,23 @@ function renderFiles (elem) {
     const multiple = elem.getAttribute('multiple') !== null
     const name = elem.getAttribute('name')
 
-    const newFiles = Array.from(elem.files).map(f => ({filename: f.name}))
-    const allFiles = [
-        ...elem.__ip_files,
-        ...newFiles
-    ]
-
-    container.innerHTML = allFiles.map((file, i) => {
+    container.innerHTML = elem.__ip_files.map((file, i) => {
         return `
-        <span class="fr-tag ${!file.signed_id ? "ip-file-input--files--new-file" : ''}">
+        <span class="fr-tag ${!file.signed_id ? "ip-file-input--files--new-file" : ''}" data-ip-file-index="${i}">
             ${file.filename}
             ${file.signed_id ? `<input name="${name}" type="hidden" ${multiple && "multiple"} value="${file.signed_id}" />` : ''}
+            <span class="fr-fi-close-line"></span>
+            ${file.progress ? `<div class="ip-file-input--files--progress" style="width: ${file.progress}%"></div>` : ''}
         </span>
         `
     }).join("")
+
+    container.querySelectorAll('.fr-tag').forEach(file => {
+        file.addEventListener('click', evt => {
+            elem.__ip_files.splice(parseInt(file.dataset.ipFileIndex), 1)
+            renderFiles(elem)
+        })
+    })
 
 
 }

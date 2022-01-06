@@ -37,6 +37,13 @@
             </table>
         </div>
     </div>
+
+    <h4>Documents attachés</h4>
+    <ul>
+        <% @signalement.documents.each do |document| %>
+            <li><a href="<%= rails_blob_path(document, disposition: "attachment") %>"><%= document.filename %></a></li>
+        <% end %>
+    </ul>
 </div>
 <%= link_to 'Editer', edit_signalement_path(@signalement), class: "fr-link" %> |
 <%= link_to 'Retour', signalements_path, class: "fr-link" %>
