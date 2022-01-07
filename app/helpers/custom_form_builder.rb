@@ -1,8 +1,8 @@
 class CustomFormBuilder < ActionView::Helpers::FormBuilder
     delegate :tag, :safe_join, to: :@template
 
-    def label(method, options)
-        super(method, add_class(options, "fr-label"))
+    def label(method, text = nil, options = {})
+        super(method, text, add_class(options, "fr-label"))
     end
 
     def ip_label(method, options)
