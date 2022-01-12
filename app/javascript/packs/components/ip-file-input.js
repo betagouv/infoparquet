@@ -1,4 +1,5 @@
-import { DirectUpload } from '@rails/activestorage'
+import { DirectUpload, FileChecksum } from '@rails/activestorage'
+
 
 document.addEventListener('turbolinks:load', () => {
     const elems = document.querySelectorAll('.ip-file-input')
@@ -7,7 +8,6 @@ document.addEventListener('turbolinks:load', () => {
 
 
 function init(elem) {
-    console.log(elem)
     if (elem.__ip_file_input) {
         return
     }

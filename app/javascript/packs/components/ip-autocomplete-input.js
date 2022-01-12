@@ -14,9 +14,10 @@ function init(elem) {
     elem.parentElement.style.position = "relative"
 
     elem.addEventListener ('input', () => {
-        if (elem.value.length < 3) {
+        if (elem.value.length < 1) {
             return 
         }
+        console.log("lll")
 
         if (elem.dataset.ipAutocompleteInputSourceApiCommunes) {
             getCommunes(elem).then(() => {
@@ -24,6 +25,10 @@ function init(elem) {
             })
         } else if (elem.dataset.ipAutocompleteInputSourceApiUsers) {
             getUsers(elem).then(() => {
+                renderList(elem)
+            })
+        } else if (elem.dataset.ipAutocompleteInputSourceApiNataffs) {
+            getNataffs(elem).then(() => {
                 renderList(elem)
             })
         }
@@ -62,8 +67,13 @@ function renderList(elem) {
 
     list.innerHTML = `
         <ul>
-            ${elem.__ip_autocomplete_input_values.map((value, i) => `
-                <li class="${i === elem.__ip_autocomplete_input_selected ? 'ip-autocomplete-input--selected' : ''}" data-ip-autocomplete-input-index="${i}">${value}</li>
+            ${elem.__ip_autocomplete_input_values.map((item, i) => `
+                <li 
+                    class="${i === elem.__ip_autocomplete_input_selected ? 'ip-autocomplete-input--selected' : ''}"
+                    data-ip-autocomplete-input-index="${i}"
+                >
+                    ${item.value} ${item.desc ? ` - ${item.desc}` : ''}
+                </li>
             `).join('')}
         </ul>
     `
@@ -80,9 +90,10 @@ function selectCurrentValue(elem) {
     if (elem.__ip_autocomplete_input_values.length <= 0) {
         return
     }
-    elem.value = elem.__ip_autocomplete_input_values[elem.__ip_autocomplete_input_selected]
+    const item = elem.__ip_autocomplete_input_values[elem.__ip_autocomplete_input_selected]
+    elem.value = item.value
     hideList(elem)
-    elem.dispatchEvent(new CustomEvent('ip-autocomplete-input-changed', { bubbles: true, detail: elem.value }))
+    elem.dispatchEvent(new CustomEvent('ip-autocomplete-input-changed', { bubbles: true, detail: item }))
 }
 
 function setValues (elem, values) {
@@ -94,7 +105,7 @@ function getCommunes (elem) {
     return fetch (`https://geo.api.gouv.fr/communes?nom=${elem.value}`).then(r => {
         return r.json()
     }).then(data => {
-        setValues(elem, data.map (c => `${c.nom} (${c.codesPostaux[0]})`))
+        setValues(elem, data.map (c => ({value: `${c.nom} (${c.codesPostaux[0]})`})))
     })
 }
 
@@ -104,6 +115,17 @@ function getUsers (elem) {
     return fetch (`/users?email=${elem.value}`, { headers }).then(r => {
         return r.json()
     }).then(users => {
-        setValues(elem, users.map(u => u.email))
+        setValues(elem, users.map(u => ({value: u.email})))
+    })
+}
+
+
+function getNataffs (elem) {
+    const headers = new Headers()
+    headers.append('Accept', 'application/json')
+    return fetch (`/srj/nataffs?search=${elem.value}`, { headers }).then(r => {
+        return r.json()
+    }).then(nataffs => {
+        setValues(elem, nataffs.map(nataff => ({value: nataff.code, desc: nataff.desc})))
     })
 }

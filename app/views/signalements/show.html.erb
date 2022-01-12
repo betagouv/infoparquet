@@ -30,7 +30,7 @@
             <table>
                 <caption>Qualification</caption>
                 <tbody>
-                    <tr><th>Code NATAFF:</th><td><%= @signalement.nataff %></td></tr>
+                    <tr><th>Code NATAFF:</th><td><%= (@signalement.nataffs.map { |nataff| nataff.code }).join ', ' %></td></tr>
                     <tr><th>Code NATINF:</th><td><%= @signalement.natinf %></td></tr>
                     <tr><th>Commentaire:</th><td><%= @signalement.commentaire %></td></tr>
                 </tbody>

@@ -61,6 +61,8 @@ class SignalementsController < ApplicationController
     @signalement.administration_id = current_user.administration_id
     @signalement.createur = current_user
 
+    set_signalement_nataffs
+
     respond_to do |format|
       if @signalement.save
         format.html { redirect_to @signalement, notice: "Signalement créé avec succès !" }
@@ -74,6 +76,8 @@ class SignalementsController < ApplicationController
 
   # PATCH/PUT /signalements/1 or /signalements/1.json
   def update
+    set_signalement_nataffs
+
     respond_to do |format|
       if @signalement.update(signalement_params)
         format.html { redirect_to @signalement, notice: "Signalement mis-à-jour avec succès !" }
@@ -95,6 +99,16 @@ class SignalementsController < ApplicationController
   end
 
   private
+    def set_signalement_nataffs
+        begin
+            nataffs = JSON.parse(params[:signalement][:nataffs])
+            @signalement.nataffs = Nataff.where(code: nataffs)
+        rescue => e
+            puts e
+            puts "Invalid Nataff, ignoring..."
+        end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_signalement
       @signalement = Signalement.find(params[:id])
@@ -102,6 +116,6 @@ class SignalementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def signalement_params
-      params.require(:signalement).permit(:urgence, :reference_administration, :commentaire, :lieux_faits, :date_faits, :nataff, :natinf, documents: [])
+      params.require(:signalement).permit(:urgence, :reference_administration, :commentaire, :lieux_faits, :date_faits, :natinf, documents: [])
     end
 end

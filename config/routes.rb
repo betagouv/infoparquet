@@ -13,5 +13,7 @@ Rails.application.routes.draw do
   post '/ds/event', to: 'ds#event'
   get '/ds/dossiers', to: 'ds#index'
 
+  get '/srj/nataffs', to: 'srj#nataffs'
+
   root "index#index"
 end

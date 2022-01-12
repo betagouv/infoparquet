@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_05_101525) do
+ActiveRecord::Schema.define(version: 2022_01_12_193134) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -52,6 +53,24 @@ ActiveRecord::Schema.define(version: 2022_01_05_101525) do
     t.string "service"
   end
 
+  create_table "nataffs", force: :cascade do |t|
+    t.string "code"
+    t.text "desc"
+    t.boolean "full"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "lower((code)::text) varchar_pattern_ops", name: "index_nataffs_on_lower_code_varchar_pattern_ops"
+    t.index ["code"], name: "index_nataffs_on_code", unique: true
+    t.index ["desc"], name: "index_nataffs_on_desc", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "nataffs_signalements", id: false, force: :cascade do |t|
+    t.bigint "signalement_id"
+    t.bigint "nataff_id"
+    t.index ["nataff_id"], name: "index_nataffs_signalements_on_nataff_id"
+    t.index ["signalement_id"], name: "index_nataffs_signalements_on_signalement_id"
+  end
+
   create_table "signalements", force: :cascade do |t|
     t.boolean "urgence"
     t.string "reference_administration"
@@ -62,7 +81,6 @@ ActiveRecord::Schema.define(version: 2022_01_05_101525) do
     t.bigint "administration_id", null: false
     t.string "date_faits"
     t.string "idj"
-    t.string "nataff"
     t.string "natinf"
     t.string "lieux_faits"
     t.index ["administration_id"], name: "index_signalements_on_administration_id"

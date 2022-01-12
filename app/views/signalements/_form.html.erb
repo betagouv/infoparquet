@@ -41,10 +41,12 @@
 
     <h3>Qualification</h3>
 
-    <%= form.ip_text_field(
-        :nataff,
-        label: "Code NATAFF",
-        hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche."
+    <%= form.ip_tags_input(
+        :nataffs,
+        label: "Code(s) NATAFF",
+        hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche.",
+        tags: signalement.nataffs ? (signalement.nataffs.map {|nataff| {value: nataff["code"], desc: nataff["desc"]}}).to_json : [],
+        data_source: "api-nataffs"
     )%>
     <%= form.ip_text_field(
         :natinf,

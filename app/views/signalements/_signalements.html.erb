@@ -18,7 +18,7 @@
         <tr class="<%= signalement.urgence ? 'dossier-urgent' : ''%>">
             <td><%= signalement.reference_administration %></td>
             <td><%= signalement.idj %></td>
-            <td><%= signalement.nataff %></td>
+            <td><%= (signalement.nataffs.map { |nataff| nataff.code }).join ', ' %></td>
             <td><%= signalement.date_faits%></td>
             <td><%= JSON.parse(signalement.lieux_faits).join ', ' %></td>
             <td>
