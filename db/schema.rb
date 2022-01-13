@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_12_193134) do
+ActiveRecord::Schema.define(version: 2022_01_13_094230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -71,6 +71,23 @@ ActiveRecord::Schema.define(version: 2022_01_12_193134) do
     t.index ["signalement_id"], name: "index_nataffs_signalements_on_signalement_id"
   end
 
+  create_table "natinfs", force: :cascade do |t|
+    t.string "numero"
+    t.text "desc"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "lower((numero)::text) varchar_pattern_ops", name: "index_natinfs_on_lower_numero_varchar_pattern_ops"
+    t.index ["desc"], name: "index_natinfs_on_desc", opclass: :gin_trgm_ops, using: :gin
+    t.index ["numero"], name: "index_natinfs_on_numero", unique: true
+  end
+
+  create_table "natinfs_signalements", id: false, force: :cascade do |t|
+    t.bigint "signalement_id"
+    t.bigint "natinf_id"
+    t.index ["natinf_id"], name: "index_natinfs_signalements_on_natinf_id"
+    t.index ["signalement_id"], name: "index_natinfs_signalements_on_signalement_id"
+  end
+
   create_table "signalements", force: :cascade do |t|
     t.boolean "urgence"
     t.string "reference_administration"
@@ -81,7 +98,6 @@ ActiveRecord::Schema.define(version: 2022_01_12_193134) do
     t.bigint "administration_id", null: false
     t.string "date_faits"
     t.string "idj"
-    t.string "natinf"
     t.string "lieux_faits"
     t.index ["administration_id"], name: "index_signalements_on_administration_id"
     t.index ["createur_id"], name: "index_signalements_on_createur_id"

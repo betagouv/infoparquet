@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/ds/dossiers', to: 'ds#index'
 
   get '/srj/nataffs', to: 'srj#nataffs'
+  get '/srj/natinfs', to: 'srj#natinfs'
 
   root "index#index"
 end

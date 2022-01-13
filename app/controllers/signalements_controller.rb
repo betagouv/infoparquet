@@ -62,6 +62,7 @@ class SignalementsController < ApplicationController
     @signalement.createur = current_user
 
     set_signalement_nataffs
+    set_signalement_natinfs
 
     respond_to do |format|
       if @signalement.save
@@ -77,6 +78,7 @@ class SignalementsController < ApplicationController
   # PATCH/PUT /signalements/1 or /signalements/1.json
   def update
     set_signalement_nataffs
+    set_signalement_natinfs
 
     respond_to do |format|
       if @signalement.update(signalement_params)
@@ -109,6 +111,16 @@ class SignalementsController < ApplicationController
         end
     end
 
+    def set_signalement_natinfs
+        begin
+            natinfs = JSON.parse(params[:signalement][:natinfs])
+            @signalement.natinfs = Natinf.where(numero: natinfs)
+        rescue => e
+            puts e
+            puts "Invalid Natinf, ignoring..."
+        end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_signalement
       @signalement = Signalement.find(params[:id])
@@ -116,6 +128,6 @@ class SignalementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def signalement_params
-      params.require(:signalement).permit(:urgence, :reference_administration, :commentaire, :lieux_faits, :date_faits, :natinf, documents: [])
+      params.require(:signalement).permit(:urgence, :reference_administration, :commentaire, :lieux_faits, :date_faits, documents: [])
     end
 end

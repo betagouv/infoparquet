@@ -46,12 +46,16 @@
         label: "Code(s) NATAFF",
         hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche.",
         tags: signalement.nataffs ? (signalement.nataffs.map {|nataff| {value: nataff["code"], desc: nataff["desc"]}}).to_json : [],
-        data_source: "api-nataffs"
+        data_source: "api-nataffs",
+        query_threshold: 1
     )%>
-    <%= form.ip_text_field(
-        :natinf,
-        label: "Code NATINF",
-        hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche."
+    <%= form.ip_tags_input(
+        :natinfs,
+        label: "numéro(s) NATINF",
+        hint: "Aide le bureau d'ordre à orienter le dossier vers les personnes compétentes. Si innconnu, laisser vide ou utiliser la fonctionnalité d e recherche.",
+        tags: signalement.natinfs ? (signalement.natinfs.map {|natinf| {value: natinf["numero"], desc: natinf["desc"]}}).to_json : [],
+        data_source: "api-natinfs",
+        query_threshold: 1
     )%>
 
     <%= form.ip_text_area(

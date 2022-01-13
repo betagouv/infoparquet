@@ -1,4 +1,6 @@
 class SrjController < ApplicationController
+    before_action :authenticate_user!
+    before_action :enrolled_user!
 
     def nataffs
         params.require(:search)
@@ -13,7 +15,17 @@ class SrjController < ApplicationController
         render json: nataffs.to_json
     end
 
-    def natinf
+    def natinfs
+        params.require(:search)
+        search = params[:search]
+
+        if search.match(/^[0-9]+$/)
+            natinfs = Natinf.where("numero ilike ?", "#{search.downcase()}%")
+        else
+            natinfs = Natinf.where('"desc" ilike ?', "%#{search.downcase()}%")
+        end
+
+        render json: natinfs.to_json
     end
 
 end

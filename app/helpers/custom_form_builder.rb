@@ -47,7 +47,8 @@ class CustomFormBuilder < ActionView::Helpers::FormBuilder
     def ip_autocomplete_input(method, options)
         safe_join [
             text_field(method, add_class(options, "ip-autocomplete-input").merge({
-                "data-ip-autocomplete-input-source-#{options[:data_source]}": true
+                "data-ip-autocomplete-input-source-#{options[:data_source]}": true,
+                "data-ip-autocomplete-input-query-threshold": options[:query_threshold] || false
             })),
             tag.div(class: 'ip-autocomplete-input-list')
         ]

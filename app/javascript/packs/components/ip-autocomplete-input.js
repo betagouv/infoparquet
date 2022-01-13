@@ -13,11 +13,12 @@ function init(elem) {
 
     elem.parentElement.style.position = "relative"
 
+    elem.__ip_autocomplete_input_query_threshold = parseInt(elem.dataset.ipAutocompleteInputQueryThreshold) || 3
+
     elem.addEventListener ('input', () => {
-        if (elem.value.length < 1) {
+        if (elem.value.length < elem.__ip_autocomplete_input_query_threshold) {
             return 
         }
-        console.log("lll")
 
         if (elem.dataset.ipAutocompleteInputSourceApiCommunes) {
             getCommunes(elem).then(() => {
@@ -31,16 +32,22 @@ function init(elem) {
             getNataffs(elem).then(() => {
                 renderList(elem)
             })
+        } else if (elem.dataset.ipAutocompleteInputSourceApiNatinfs) {
+            getNatinfs(elem).then(() => {
+                renderList(elem)
+            })
         }
     })
 
     elem.addEventListener('keydown', evt => {
         if (evt.keyCode == 40) { // ARROW_DOWN
+            evt.preventDefault()
             if (elem.__ip_autocomplete_input_values.length > elem.__ip_autocomplete_input_selected + 1) {
                 elem.__ip_autocomplete_input_selected++
                 renderList(elem)
             }
         } else if (evt.keyCode == 38) { //ARROW_UP
+            evt.preventDefault()
             if (elem.__ip_autocomplete_input_selected - 1 >= 0) {
                 elem.__ip_autocomplete_input_selected--
                 renderList(elem)
@@ -48,6 +55,9 @@ function init(elem) {
         } else if (evt.keyCode == 13) { //ENTER
             evt.preventDefault()
             selectCurrentValue(elem)
+        } else if (evt.keyCode == 27) {
+            evt.preventDefault()
+            hideList(elem)
         }
     })
 
@@ -84,6 +94,11 @@ function renderList(elem) {
             selectCurrentValue(elem)
         })
     })
+
+    const selected = list.querySelector('.ip-autocomplete-input--selected')
+    if (selected) {
+        selected.scrollIntoView({block: 'nearest', inline: 'nearest'})
+    }
 }
 
 function selectCurrentValue(elem) {
@@ -93,6 +108,7 @@ function selectCurrentValue(elem) {
     const item = elem.__ip_autocomplete_input_values[elem.__ip_autocomplete_input_selected]
     elem.value = item.value
     hideList(elem)
+    elem.scrollIntoView({block: 'nearest', inline: 'nearest'})
     elem.dispatchEvent(new CustomEvent('ip-autocomplete-input-changed', { bubbles: true, detail: item }))
 }
 
@@ -127,5 +143,15 @@ function getNataffs (elem) {
         return r.json()
     }).then(nataffs => {
         setValues(elem, nataffs.map(nataff => ({value: nataff.code, desc: nataff.desc})))
+    })
+}
+
+function getNatinfs (elem) {
+    const headers = new Headers()
+    headers.append('Accept', 'application/json')
+    return fetch (`/srj/natinfs?search=${elem.value}`, { headers }).then(r => {
+        return r.json()
+    }).then(natinfs => {
+        setValues(elem, natinfs.map(natinf => ({value: natinf.numero, desc: natinf.desc})))
     })
 }

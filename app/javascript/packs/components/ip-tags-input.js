@@ -26,10 +26,13 @@ function init(elem) {
 
     elem.addEventListener('ip-autocomplete-input-changed', evt => {
         evt.target.value = ""
-        if (!elem.__ip_tags.includes(evt.detail.value)) {
+        if (!elem.__ip_tags.some(tag => tag.value === evt.detail.value)) {
             elem.__ip_tags.push(evt.detail)
         }
         renderTags(elem)
+        
+        const scrollable = elem.parentElement.querySelector('label') || elem
+        scrollable.scrollIntoView({block: 'nearest', inline: 'nearest'})
     })
 
     renderTags(elem)
