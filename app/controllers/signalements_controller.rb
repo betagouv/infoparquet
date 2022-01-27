@@ -1,7 +1,7 @@
 class SignalementsController < ApplicationController
   before_action :authenticate_user!
   before_action :enrolled_user!
-  before_action :set_signalement, only: %i[ show edit update destroy ]
+  before_action :set_signalement, only: %i[ show edit update destroy publish ]
 
   # GET /signalements or /signalements.json
   def index
@@ -27,8 +27,6 @@ class SignalementsController < ApplicationController
     if @search
         query = query.where(
             'reference_administration ILIKE :startswith
-            OR nataff ILIKE :startswith
-            OR natinf ILIKE :startswith
             OR idj ILIKE :startswith
             OR lieux_faits ILIKE :contains', 
             startswith: "#{@search}%",
@@ -53,6 +51,13 @@ class SignalementsController < ApplicationController
 
   # GET /signalements/1/edit
   def edit
+    if !@signalement.draft?
+        respond_to do |format|
+            format.html { redirect_to @signalement, flash: { error: "Impossible de modifier un signalement déjà envoyé !"} }
+            format.json { render json: "Impossible de modifier un signalement déjà envoyé !", status: :unprocessable_entity }
+        end
+        return
+    end
   end
 
   # POST /signalements or /signalements.json
@@ -77,6 +82,14 @@ class SignalementsController < ApplicationController
 
   # PATCH/PUT /signalements/1 or /signalements/1.json
   def update
+    if !@signalement.draft?
+        respond_to do |format|
+            format.html { redirect_to @signalement, flash: { error: "Impossible de modifier un signalement déjà envoyé !"} }
+            format.json { render json: "Impossible de modifier un signalement déjà envoyé !", status: :unprocessable_entity }
+        end
+        return
+    end
+
     set_signalement_nataffs
     set_signalement_natinfs
 
@@ -97,6 +110,28 @@ class SignalementsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to signalements_url, notice: "Signalement détruit avec succès !" }
       format.json { head :no_content }
+    end
+  end
+
+  def publish 
+    if !@signalement.draft?
+        respond_to do |format|
+            format.html { redirect_to @signalement, flash: { error: "Le signalement a déjà été envoyé !"} }
+            format.json { render json: "Le signalement a déjà été envoyé !", status: :unprocessable_entity }
+        end
+        return
+    end
+
+    @signalement.sent!
+
+    respond_to do |format|
+        if @signalement.save
+            format.html { redirect_to @signalement, notice: "Signalement envoyé avec succès !" }
+            format.json { render :show, status: :ok, location: @signalement }
+        else
+            format.html { render :show, status: :unprocessable_entity }
+            format.json { render json: @signalement.errors, status: :unprocessable_entity }
+        end
     end
   end
 

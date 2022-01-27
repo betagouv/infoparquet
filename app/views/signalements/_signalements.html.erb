@@ -9,7 +9,8 @@
         <th>Date des faits</th>
         <th>Lieux des faits</th>
         <th>Urgence</th>
-        <th colspan="2"></th>
+        <th>Status</th>
+        <th colspan="2">actions</th>
         </tr>
     </thead>
 
@@ -28,8 +29,27 @@
                     Non
                 <% end %>
             </td>
-            <td><%= link_to 'Voir', signalement, class: "fr-link" %></td>
-            <td><%= link_to 'Modifier', edit_signalement_path(signalement), class: "fr-link" %></td>
+            <td>
+                <% if signalement.draft? %>
+                    Brouillon
+                <% elsif signalement.sent? %>
+                    Envoyé
+                <% else %>
+                    Archivé
+                <% end %>
+            </td>
+            <td>
+                <%= link_to signalement, class: "fr-link", title: 'Voir' do %>
+                    <span class="fr-fi-eye-line"></span>
+                <% end %>
+            </td>
+            <td>
+                <% if signalement.draft? %>
+                    <%= link_to edit_signalement_path(signalement), class: "fr-link", title: 'Modifier' do %>
+                        <span class="fr-fi-edit-line"></span>
+                    <% end %>
+                <% end %>
+            </td>
         </tr>
         <% end %>
     </tbody>

@@ -1,4 +1,14 @@
-<h1>Détails du signalement</h1>
+
+<h1>
+    Détails du signalement
+
+    <% if @signalement.draft? %>
+        <div class="signalement_actions">
+            <%= link_to 'Editer', edit_signalement_path(@signalement), class: "fr-btn fr-btn--secondary" %>
+            <%= link_to 'Envoyer le signalement', publish_signalement_path(@signalement), method: :post, class: "fr-btn" %>
+        </div>
+    <% end %>
+</h1>
 
 <div id="signalement_content">
     <div id="signalement_data">
@@ -45,5 +55,3 @@
         <% end %>
     </ul>
 </div>
-<%= link_to 'Editer', edit_signalement_path(@signalement), class: "fr-link" %> |
-<%= link_to 'Retour', signalements_path, class: "fr-link" %>

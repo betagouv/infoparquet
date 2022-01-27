@@ -29,6 +29,11 @@ body.signalements.new {
  }
 }
 body.signalements.show {
+    h1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     #signalement_content {
 
         th {
@@ -50,6 +55,4 @@ body.signalements.show {
             left: 20px;
         }
     }
-
-
 }

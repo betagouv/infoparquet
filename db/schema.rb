@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_13_094230) do
+ActiveRecord::Schema.define(version: 2022_01_27_114956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2022_01_13_094230) do
     t.string "date_faits"
     t.string "idj"
     t.string "lieux_faits"
+    t.integer "status", default: 0
     t.index ["administration_id"], name: "index_signalements_on_administration_id"
     t.index ["createur_id"], name: "index_signalements_on_createur_id"
   end
