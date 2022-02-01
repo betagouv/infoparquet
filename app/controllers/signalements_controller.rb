@@ -126,6 +126,9 @@ class SignalementsController < ApplicationController
 
     respond_to do |format|
         if @signalement.save
+
+            SendSignalementJob.perform_later @signalement
+
             format.html { redirect_to @signalement, notice: "Signalement envoyé avec succès !" }
             format.json { render :show, status: :ok, location: @signalement }
         else
