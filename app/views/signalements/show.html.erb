@@ -1,11 +1,11 @@
 
 <h1>
-    Détails du signalement
+    Détails de la procédure
 
     <% if @signalement.draft? %>
         <div class="signalement_actions">
             <%= link_to 'Editer', edit_signalement_path(@signalement), class: "fr-btn fr-btn--secondary" %>
-            <%= link_to 'Envoyer le signalement', publish_signalement_path(@signalement), method: :post, class: "fr-btn" %>
+            <%= link_to 'Envoyer la procédure', publish_signalement_path(@signalement), method: :post, class: "fr-btn" %>
         </div>
     <% end %>
 </h1>

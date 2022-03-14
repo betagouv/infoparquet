@@ -22,7 +22,7 @@ services:
   mailcatcher:
     image: sj26/mailcatcher
     ports:
-      - "3001:1080"
+      - "3002:1080"
 volumes:
     data:
 
